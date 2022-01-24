@@ -84,6 +84,35 @@
     <h1>Using --background-color to set background-color</h1>
     <github-button id="custom-background-color"></github-button>
 
+    <h1>Using target-window to open in same window (default)</h1>
+    <github-button
+      link="CICCIOSGAMINO/github-button.git"
+      target-window="current"
+      >
+    </github-button>
+
+    <h1>Using target-window to open in new window</h1>
+    <github-button
+      link="CICCIOSGAMINO/github-button.git"
+      target-window="new"
+      >
+    </github-button>
+
+    <h1>Using targetWindow property to open in new window</h1>
+    <!-- targetWindow set in script below -->
+    <github-button
+      id="set-targetWindow"
+      link="CICCIOSGAMINO/github-button.git"
+      >
+    </github-button>
+
+    <script type="module">
+      await window.customElements.whenDefined('github-button');
+
+      const el = document.querySelector('#set-targetWindow');
+      el.targetWindow = 'new';
+    </script>
+
   </main>
 
   <noscript>
@@ -92,11 +121,6 @@
 
   <!-- Import Js Module -->
   <script type="module" src="../github-button.js"></script>
-  <script>
-    window.addEventListener('DOMContentLoaded', _ => {
-      console.log('@DOM-READY')
-    })
-  </script>
 
 </body>
 </html>
