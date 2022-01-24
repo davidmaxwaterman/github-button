@@ -91,8 +91,8 @@ class GithubButton extends LitElement {
       this.setAttribute('target-window', target);
     } else {
       // don't change #targetWindow - raise error
-      const errorMessage = `targetWindow value invalid: ${target};`;
-      console.error(`targetWindow value invalid: ${this.targetWindow}`);
+      const errorMessage = `value provided for targetWindow is invalid: ${target} (must be one of ${validTargets.join(' ')})`;
+      console.error(errorMessage);
       throw( new Error(errorMessage) );
     }
   }
