@@ -61,6 +61,17 @@
       --icon-color: #333;
     }
 
+    github-button:not(:defined) {
+      display: block;
+
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+
+    github-button:defined {
+      opacity: 1;
+    }
+
     #custom-background-color {
       --background-color: green;
     }
