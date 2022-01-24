@@ -7,7 +7,8 @@
   "module": "github-button.js",
   "scripts": {
     "dev": "web-dev-server --node-resolve --app-index examples/index.html --watch --open",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "web-test-runner --coverage",
+    "test:watch": "web-test-runner --watch"
   },
   "repository": {
     "type": "git",
@@ -32,6 +33,8 @@
     "lit": "*"
   },
   "devDependencies": {
+    "@web/test-runner": "^0.13.22",
+    "@open-wc/testing": "next",
     "@web/dev-server": "^0.1.29"
   },
   "directories": {
