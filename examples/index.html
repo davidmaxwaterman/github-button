@@ -60,6 +60,10 @@
 
       --icon-color: #333;
     }
+
+    #custom-background-color {
+      --background-color: green;
+    }
   </style>
   
 </head>
@@ -72,9 +76,13 @@
 
   <main>
 
+    <h1>Basic example linking to github-button repo.</h1>
     <github-button
       link="CICCIOSGAMINO/github-button.git">
     </github-button>
+
+    <h1>Using --background-color to set background-color</h1>
+    <github-button id="custom-background-color"></github-button>
 
   </main>
 

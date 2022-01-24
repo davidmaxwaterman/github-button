@@ -14,6 +14,8 @@ class GithubButton extends LitElement {
         display: inline-block;
         min-width: 16px;
         min-height: 16px;
+
+        background-color: var(--background-color);
       }
       
       button {
