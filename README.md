@@ -25,6 +25,7 @@ Simple github button that can be use only to link github, users, projects and ot
       height: 128px;
 
       --icon-color: #333;
+      --background-color: red;
     }
 </style>
 
@@ -36,6 +37,12 @@ Simple github button that can be use only to link github, users, projects and ot
 <!-- Absolute link -->
 <github-button
   link="https://github.com/CICCIOSGAMINO/github-button.git">
+</github-button>
+
+<!-- Open in new window (default is 'current') -->
+<github-button
+  link="CICCIOSGAMINO/github-button.git"
+  target-window="new">
 </github-button>
 ```
 
@@ -71,9 +78,10 @@ npm install --save @cicciosgamino/github-button
 
 ## 📒 Properties/Attributes
 
-|    Name    |  Type   | Default  |  Description
-| ---------- | ------- | -------- | --------------
-|  link      | String  |   `''`   | Github Absolute / Relative path to user / project
+|  Attribute     |  Property    |  Type   |  Default     |  Description
+| -------------- | ------------ | ------- | ------------ | --------------
+|  link          | link         | String  |  `''`        | Github Absolute / Relative path to user / project
+|  target-window | targetWindow | String  |  `'current'` | Open
 
 ## Methods
 *None*
@@ -83,12 +91,13 @@ npm install --save @cicciosgamino/github-button
 
 ## 🧁 CSS Custom Properties
 
-|       Name      | Default | Description
-| --------------- | ------- | --------------------
-| `--icon-color`  | `#000`  | SVG fill attribute
+|       Name           | Default       | Description
+| -------------------- | ------------- | --------------------
+| `--icon-color`       | `#000`        | SVG fill attribute
+| `--background-color` | `transparent` | Background color of element
 
 ## 💪 Accessibility
-Acessibility is guaranted with the use of a button with the *title* and *aria-label* set on it.SVG icons inside the inner button are set *role=img*,*aria-hidden="true"*,*focusable="false"* .
+Acessibility is guaranted with the use of a button with the *title* and *aria-label* set on it. SVG icons inside the inner button are set *role=img*,*aria-hidden="true"*,*focusable="false"* .
 
 ## 🔧 TODO
 - [ ] Better Documentation
