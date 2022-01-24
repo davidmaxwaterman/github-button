@@ -97,9 +97,25 @@ class GithubButton extends LitElement {
     }
   }
 
+  /**
+   * disable the button to prevent over clicking - github is a sensitive being
+   */
+  #disableButtonWithTimeout() {
+    const button = this.shadowRoot.querySelector('#btn');
+    button?.setAttribute('disabled','');
+
+    /*
+      enable the button again, in case the click
+      didn't work - eg browser blocked it
+     */
+    setTimeout(() => button?.removeAttribute('disabled'), 5000);
+  }
+
   #handleClick (event) {
     const githubBaseURL = 'https://github.com';
     const githubURL = new URL(this.link, githubBaseURL);
+
+    this.#disableButtonWithTimeout();
 
     // dispatch even so this can be tested
     this.dispatchEvent(
@@ -136,7 +152,8 @@ class GithubButton extends LitElement {
       <button id="btn"
         title="github link"
         aria-label="github link"
-        @click=${this.#handleClick}>
+        @click=${this.#handleClick}
+        >
 
         <svg version="1.1" viewBox="0 0 120 120"
           class="animation-move" role="img" aria-hidden="true" focusable="false" >
