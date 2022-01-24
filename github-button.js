@@ -66,14 +66,69 @@ class GithubButton extends LitElement {
 
   static get properties () {
     return {
-      link: String
+      link: String,
+    };
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+
+    this.targetWindow = this.getAttribute('target-window') || 'current';
+  }
+
+  #targetWindow;
+  get targetWindow() {
+    return this.#targetWindow;
+  }
+  set targetWindow(target) {
+    const validTargets = [
+      'current',
+      'new',
+    ];
+
+    if (validTargets.includes(target)) {
+      this.#targetWindow = target;
+      this.setAttribute('target-window', target);
+    } else {
+      // don't change #targetWindow - raise error
+      const errorMessage = `targetWindow value invalid: ${target};`;
+      console.error(`targetWindow value invalid: ${this.targetWindow}`);
+      throw( new Error(errorMessage) );
     }
   }
 
   #handleClick (event) {
-    const githubBaseURL = 'https://github.com'
-    const githubURL = new URL(this.link, githubBaseURL)
-    window.location.href = githubURL
+    const githubBaseURL = 'https://github.com';
+    const githubURL = new URL(this.link, githubBaseURL);
+
+    // dispatch even so this can be tested
+    this.dispatchEvent(
+      new CustomEvent('buttonClicked', {
+        detail: {
+          githubURL,
+          targetWindow: this.targetWindow,
+        },
+
+        // only limit this event to this element
+        bubbles: false,
+        composed: false,
+      })
+    ); 
+
+    switch (this.targetWindow) {
+    case 'current':
+      window.location.href = githubURL;
+      break;
+    case 'new':
+      window.open(githubURL);
+      break;
+    detault: {
+        const errorMessage = `targetWindow value invalid: ${this.targetWindow}`;
+        console.error(`targetWindow value invalid: ${this.targetWindow}`);
+        throw( new Error(errorMessage) );
+      }
+      break;
+    }
   }
 
   render () {
