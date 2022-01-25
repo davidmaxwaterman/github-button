@@ -35,15 +35,20 @@
     "lit": "*"
   },
   "devDependencies": {
-    "@web/test-runner": "^0.13.22",
+    "@babel/eslint-parser": "^7.16.5",
     "@open-wc/eslint-config": "^4.3.0",
     "@open-wc/testing": "next",
     "@web/dev-server": "^0.1.29",
+    "@web/test-runner": "^0.13.22",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "prettier": "^2.4.1"
   },
   "eslintConfig": {
+    "parser": "@babel/eslint-parser",
+    "parserOptions": {
+      "requireConfigFile": false
+    },
     "env": {
       "es2021": true
     },
