@@ -7,6 +7,8 @@
   "module": "github-button.js",
   "scripts": {
     "dev": "web-dev-server --node-resolve --app-index examples/index.html --watch --open",
+    "lint": "eslint --ext .js,.html . --ignore-path .gitignore && prettier \"**/*.js\" --check --ignore-path .gitignore",
+    "format": "eslint --ext .js,.html . --fix --ignore-path .gitignore && prettier \"**/*.js\" --write --ignore-path .gitignore",
     "test": "web-test-runner --coverage",
     "test:watch": "web-test-runner --watch"
   },
@@ -34,8 +36,28 @@
   },
   "devDependencies": {
     "@web/test-runner": "^0.13.22",
+    "@open-wc/eslint-config": "^4.3.0",
     "@open-wc/testing": "next",
-    "@web/dev-server": "^0.1.29"
+    "@web/dev-server": "^0.1.29",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "prettier": "^2.4.1"
+  },
+  "eslintConfig": {
+    "env": {
+      "es2021": true
+    },
+    "extends": [
+      "@open-wc",
+      "prettier"
+    ]
+  },
+  "prettier": {
+    "parserOptions": {
+      "ecmaVersion": 2021
+    },
+    "singleQuote": true,
+    "arrowParens": "avoid"
   },
   "directories": {
     "example": "examples"
