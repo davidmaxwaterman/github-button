@@ -52,15 +52,20 @@
     "env": {
       "es2021": true
     },
+    "rules": {
+      "no-console": [
+        "error",
+        {
+          "allow": ["warn", "error"]
+        }
+      ]
+    },
     "extends": [
       "@open-wc",
       "prettier"
     ]
   },
   "prettier": {
-    "parserOptions": {
-      "ecmaVersion": 2021
-    },
     "singleQuote": true,
     "arrowParens": "avoid"
   },
