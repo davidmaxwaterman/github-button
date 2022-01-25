@@ -1,7 +1,7 @@
-import { LitElement, html, css } from 'lit'
+import { LitElement, html, css } from 'lit';
 
 class GithubButton extends LitElement {
-  static get styles () {
+  static get styles() {
     return css`
       * {
         margin: 0;
@@ -17,7 +17,7 @@ class GithubButton extends LitElement {
 
         background-color: var(--background-color);
       }
-      
+
       button {
         /* reset */
         border: none;
@@ -53,18 +53,18 @@ class GithubButton extends LitElement {
           transform: scale(1);
         }
         50% {
-          opacity: .9;
+          opacity: 0.9;
           transform: scale(1.05);
         }
         100% {
           opacity: 1;
-          transform: scale()
+          transform: scale();
         }
       }
-    `
+    `;
   }
 
-  static get properties () {
+  static get properties() {
     return {
       link: String,
     };
@@ -77,23 +77,24 @@ class GithubButton extends LitElement {
   }
 
   #targetWindow;
+
   get targetWindow() {
     return this.#targetWindow;
   }
+
   set targetWindow(target) {
-    const validTargets = [
-      'current',
-      'new',
-    ];
+    const validTargets = ['current', 'new'];
 
     if (validTargets.includes(target)) {
       this.#targetWindow = target;
       this.setAttribute('target-window', target);
     } else {
       // don't change #targetWindow - raise error
-      const errorMessage = `value provided for targetWindow is invalid: ${target} (must be one of ${validTargets.join(' ')})`;
+      const errorMessage = `value provided for targetWindow is invalid: ${target} (must be one of ${validTargets.join(
+        ' '
+      )})`;
       console.error(errorMessage);
-      throw( new Error(errorMessage) );
+      throw new Error(errorMessage);
     }
   }
 
@@ -102,7 +103,7 @@ class GithubButton extends LitElement {
    */
   #disableButtonWithTimeout() {
     const button = this.shadowRoot.querySelector('#btn');
-    button?.setAttribute('disabled','');
+    button?.setAttribute('disabled', '');
 
     /*
       enable the button again, in case the click
@@ -111,7 +112,7 @@ class GithubButton extends LitElement {
     setTimeout(() => button?.removeAttribute('disabled'), 5000);
   }
 
-  #handleClick (event) {
+  #handleClick() {
     const githubBaseURL = 'https://github.com';
     const githubURL = new URL(this.link, githubBaseURL);
 
@@ -129,40 +130,46 @@ class GithubButton extends LitElement {
         bubbles: false,
         composed: false,
       })
-    ); 
+    );
 
     switch (this.targetWindow) {
-    case 'current':
-      window.location.href = githubURL;
-      break;
-    case 'new':
-      window.open(githubURL);
-      break;
-    detault: {
+      case 'current':
+        window.location.href = githubURL;
+        break;
+      case 'new':
+        window.open(githubURL);
+        break;
+      default: {
         const errorMessage = `targetWindow value invalid: ${this.targetWindow}`;
         console.error(`targetWindow value invalid: ${this.targetWindow}`);
-        throw( new Error(errorMessage) );
+        throw new Error(errorMessage);
       }
-      break;
     }
   }
 
-  render () {
+  render() {
     return html`
-      <button id="btn"
+      <button
+        id="btn"
         title="github link"
         aria-label="github link"
         @click=${this.#handleClick}
+      >
+        <svg
+          version="1.1"
+          viewBox="0 0 120 120"
+          class="animation-move"
+          role="img"
+          aria-hidden="true"
+          focusable="false"
         >
-
-        <svg version="1.1" viewBox="0 0 120 120"
-          class="animation-move" role="img" aria-hidden="true" focusable="false" >
-          <path d="m59.99541 11.390628c-27.521204 0-49.834951 22.313746-49.834951 49.841068 0 22.020024 14.279208 40.698954 34.084071 47.292414 2.493584 0.45588 3.402289-1.0831 3.402289-2.40486 0-1.181-0.04284-4.31711-0.0673-8.475118-13.863099 3.010658-16.788086-6.682191-16.788086-6.682191-2.267172-5.755129-5.534837-7.287994-5.534837-7.287994-4.525165-3.093268 0.342676-3.032075 0.342676-3.032075 5.002465 0.354916 7.633731 5.137089 7.633731 5.137089 4.445615 7.615371 11.666297 5.41551 14.505618 4.142713 0.452821-3.221771 1.737858-5.418571 3.163636-6.663834-11.066613-1.2575-22.702316-5.534837-22.702316-24.632933 0-5.439987 1.942854-9.888663 5.130968-13.373559-0.514014-1.260561-2.224336-6.327278 0.486479-13.189985 0 0 4.185548-1.34011 13.707058 5.10955 3.974435-1.104519 8.239535-1.658308 12.477097-1.676666 4.231443 0.01836 8.49654 0.572147 12.477095 1.676666 9.51539-6.44966 13.69176-5.10955 13.69176-5.10955 2.719996 6.862707 1.009672 11.929424 0.495657 13.189985 3.194234 3.484896 5.124851 7.933572 5.124851 13.373559 0 19.147049-11.654061 23.360134-22.75739 24.593159 1.789873 1.538983 3.383929 4.580238 3.383929 9.230846 0 6.660775-0.0612 12.036508-0.0612 13.670338 0 1.334 0.896465 2.88522 3.426764 2.39874 19.789567-6.6057 34.056531-25.272388 34.056531-47.286294 0-27.527322-22.316802-49.841068-49.844126-49.841068" />
+          <path
+            d="m59.99541 11.390628c-27.521204 0-49.834951 22.313746-49.834951 49.841068 0 22.020024 14.279208 40.698954 34.084071 47.292414 2.493584 0.45588 3.402289-1.0831 3.402289-2.40486 0-1.181-0.04284-4.31711-0.0673-8.475118-13.863099 3.010658-16.788086-6.682191-16.788086-6.682191-2.267172-5.755129-5.534837-7.287994-5.534837-7.287994-4.525165-3.093268 0.342676-3.032075 0.342676-3.032075 5.002465 0.354916 7.633731 5.137089 7.633731 5.137089 4.445615 7.615371 11.666297 5.41551 14.505618 4.142713 0.452821-3.221771 1.737858-5.418571 3.163636-6.663834-11.066613-1.2575-22.702316-5.534837-22.702316-24.632933 0-5.439987 1.942854-9.888663 5.130968-13.373559-0.514014-1.260561-2.224336-6.327278 0.486479-13.189985 0 0 4.185548-1.34011 13.707058 5.10955 3.974435-1.104519 8.239535-1.658308 12.477097-1.676666 4.231443 0.01836 8.49654 0.572147 12.477095 1.676666 9.51539-6.44966 13.69176-5.10955 13.69176-5.10955 2.719996 6.862707 1.009672 11.929424 0.495657 13.189985 3.194234 3.484896 5.124851 7.933572 5.124851 13.373559 0 19.147049-11.654061 23.360134-22.75739 24.593159 1.789873 1.538983 3.383929 4.580238 3.383929 9.230846 0 6.660775-0.0612 12.036508-0.0612 13.670338 0 1.334 0.896465 2.88522 3.426764 2.39874 19.789567-6.6057 34.056531-25.272388 34.056531-47.286294 0-27.527322-22.316802-49.841068-49.844126-49.841068"
+          />
         </svg>
-
       </button>
-    `
+    `;
   }
 }
 
-customElements.define('github-button', GithubButton)
+customElements.define('github-button', GithubButton);
