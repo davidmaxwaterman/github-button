@@ -83,7 +83,7 @@ class GithubButton extends LitElement {
         type: String,
         attribute: 'background-color',
         reflect: true,
-      }
+      },
     };
   }
 

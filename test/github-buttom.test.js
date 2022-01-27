@@ -174,7 +174,9 @@ describe('GithubButton background color', () => {
   });
 
   it('setting the background-color attribute sets the background color', async () => {
-    const el = await fixture(html`<github-button background-color="green"></github-button>`);
+    const el = await fixture(
+      html`<github-button background-color="green"></github-button>`
+    );
 
     const bgColor = window
       .getComputedStyle(el)
@@ -182,5 +184,4 @@ describe('GithubButton background color', () => {
 
     expect(bgColor).to.equal('rgb(0, 128, 0)');
   });
-
 });
