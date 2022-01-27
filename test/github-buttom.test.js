@@ -3,79 +3,79 @@ import { fixture, expect, nextFrame } from '@open-wc/testing';
 
 import '../github-button.js';
 
-describe('GithubButton', () => {
+describe('GithubButton link target', () => {
   /*
   it('', async () => {
     const el = await fixture(html`<github-button></github-button>`);
   });
 */
 
-  it('targetWindow property exists with default value of "current"', async () => {
+  it('linkTarget property exists with default value of "false"', async () => {
     const el = await fixture(html`<github-button></github-button>`);
 
-    const { targetWindow } = el;
-    const defaultValue = 'current';
+    const { linkTarget } = el;
+    const defaultValue = 'false';
 
-    expect(targetWindow).to.equal(defaultValue);
+    expect(linkTarget).to.equal(defaultValue);
   });
 
-  it('setting "target-window" to "current" results in "targetWindow" value "current"', async () => {
-    const expectedValue = 'current';
+  it('setting "link-target" to "false" results in "linkTarget" value "false"', async () => {
+    const expectedValue = 'false';
     const el = await fixture(
-      html`<github-button target-window="${expectedValue}"></github-button>`
+      html`<github-button link-target="${expectedValue}"></github-button>`
     );
 
-    const { targetWindow } = el;
+    const { linkTarget } = el;
 
-    expect(targetWindow).to.equal(expectedValue);
+    expect(linkTarget).to.equal(expectedValue);
   });
 
-  it('setting "target-window" to "new" results in "targetWindow" value "new"', async () => {
-    const expectedValue = 'new';
+  it('setting "link-target" to "true" results in "linkTarget" value "true"', async () => {
+    const expectedValue = 'true';
     const el = await fixture(
-      html`<github-button target-window="${expectedValue}"></github-button>`
+      html`<github-button link-target="${expectedValue}"></github-button>`
     );
 
-    const { targetWindow } = el;
+    const { linkTarget } = el;
 
-    expect(targetWindow).to.equal(expectedValue);
+    expect(linkTarget).to.equal(expectedValue);
   });
 
-  it('setting "targetWindow overrides "target-window" and reflects new value to attribute', async () => {
+  it('setting "linkTarget overrides "link-target" and reflects new value to attribute', async () => {
     const el = await fixture(
-      html`<github-button target-window="new"></github-button>`
+      html`<github-button link-target="true"></github-button>`
     );
 
     // check everything is as expected before change
     {
-      const attributeValue = el.getAttribute('target-window');
-      expect(attributeValue).to.equal('new');
+      const attributeValue = el.getAttribute('link-target');
+      expect(attributeValue).to.equal('true');
     }
 
     {
-      const { targetWindow } = el;
-      expect(targetWindow).to.equal('new');
+      const { linkTarget } = el;
+      expect(linkTarget).to.equal('true');
     }
 
     // change property
-    el.targetWindow = 'current';
+    el.linkTarget = 'false';
 
     // wait for DOM to update
     await nextFrame();
 
     // check everything is as expected after change
     {
-      const { targetWindow } = el;
-      expect(targetWindow).to.equal('current');
+      const { linkTarget } = el;
+      expect(linkTarget).to.equal('false');
     }
 
     {
-      const attributeValue = el.getAttribute('target-window');
-      expect(attributeValue).to.equal('current');
+      const attributeValue = el.getAttribute('link-target');
+      expect(attributeValue).to.equal('false');
     }
   });
 
-  it('clicking "github-button" without "target-window" results in window.location.href being set to link url', async () => {
+  it('clicking "github-button" without "link-target" results in window.location.href being set to link url', async () => {
     const link = 'CICCIOSGAMINO/github-button.git';
     const el = await fixture(
       html`<github-button link="${link}"></github-button>`
@@ -88,14 +88,14 @@ describe('GithubButton', () => {
 
     el.shadowRoot.querySelector('button').click();
 
-    expect(detail?.targetWindow).to.equal('current');
+    expect(detail?.linkTarget).to.equal('false');
     expect(detail?.githubURL?.pathname).to.equal(`/${link}`);
   });
 
-  it('Clicking github-button with ‘target-window’ set to ‘current’ results in window.locatlion.href being set to link url', async () => {
+  it('Clicking github-button with ‘link-target’ set to ‘false’ results in window.locatlion.href being set to link url', async () => {
     const link = 'CICCIOSGAMINO/github-button.git';
     const el = await fixture(html`
-      <github-button target-window="current" link="${link}"> </github-button>
+      <github-button link-target="false" link="${link}"> </github-button>
     `);
 
     let detail;
@@ -105,14 +105,14 @@ describe('GithubButton', () => {
 
     el.shadowRoot.querySelector('button').click();
 
-    expect(detail?.targetWindow).to.equal('current');
+    expect(detail?.linkTarget).to.equal('false');
     expect(detail?.githubURL?.pathname).to.equal(`/${link}`);
   });
 
-  it('Clicking github-button with ‘target-window’ set to ‘new’ results in window.open being called with link url', async () => {
+  it('Clicking github-button with ‘link-target’ set to ‘true’ results in window.open being called with link url', async () => {
     const link = 'CICCIOSGAMINO/github-button.git';
     const el = await fixture(html`
-      <github-button target-window="new" link="${link}"> </github-button>
+      <github-button link-target="true" link="${link}"> </github-button>
     `);
 
     let detail;
@@ -122,44 +122,48 @@ describe('GithubButton', () => {
 
     el.shadowRoot.querySelector('button').click();
 
-    expect(detail?.targetWindow).to.equal('new');
+    expect(detail?.linkTarget).to.equal('true');
     expect(detail?.githubURL?.pathname).to.equal(`/${link}`);
   });
 
-  it('Setting ‘target-window’ to something other than ‘new’ or ‘current’ results in an error - and no change to property', async () => {
-    const targetWindow = 'new';
+  it('Clicking github-button without "link" has no effect', async () => {
+    const el = await fixture(html` <github-button></github-button> `);
+
+    let detail;
+    el.addEventListener('buttonClicked', event => {
+      detail = event.detail;
+    });
+
+    el.shadowRoot.querySelector('button').click();
+
+    expect(detail).to.be.undefined;
+  });
+
+  it('Setting ‘linkTarget’ to something other than ‘true’ or ‘false’ results in an error - and no change to property', async () => {
+    const linkTarget = 'true';
     const el = await fixture(html`
-      <github-button target-window="${targetWindow}"></github-button>
+      <github-button link-target="${linkTarget}"></github-button>
     `);
 
-    try {
-      el.setAttribute('target-window', 'invalidtarget');
-    } catch (error) {
-      expect(el.targetWindow).to.equal(targetWindow); // hasn't changed
-      expect(error).to.exist;
-    }
+    el.linkTarget = null;
+
+    expect(el.linkTarget).to.equal(linkTarget); // hasn't changed
   });
 
-  it('Setting ‘targetWindow’ to something other than ‘new’ or ‘current’ results in an error - and no change to property', async () => {
-    const targetWindow = 'new';
+  it('Setting ‘link-target’ to something other than ‘true’ or ‘false’ results in an error - and no change to property', async () => {
+    const linkTarget = 'true';
     const el = await fixture(html`
-      <github-button target-window="${targetWindow}"></github-button>
+      <github-button link-target="${linkTarget}"></github-button>
     `);
 
-    try {
-      el.targetWindow = 'invalidtarget';
-    } catch (error) {
-      expect(el.targetWindow).to.equal(targetWindow); // hasn't changed
-      expect(error).to.exist;
-    }
-  });
+    el.setAttribute('link-target', 'gobbledygook');
 
-  /*
-  it('', async () => {
-    const el = await fixture(html`<github-button></github-button>`);
+    expect(el.linkTarget).to.equal(linkTarget); // hasn't changed
+    expect(el.getAttribute('link-target')).to.equal(linkTarget); // hasn't changed
   });
-*/
+});
 
+describe('GithubButton background color', () => {
   it('setting the --background-color css property sets the background color', async () => {
     const el = await fixture(html`<github-button></github-button>`);
 

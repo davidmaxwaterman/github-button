@@ -95,24 +95,24 @@
     <h1>Using --background-color to set background-color</h1>
     <github-button id="custom-background-color"></github-button>
 
-    <h1>Using target-window to open in same window (default)</h1>
+    <h1>Using link-target to open in same window (default)</h1>
     <github-button
       link="CICCIOSGAMINO/github-button.git"
-      target-window="current"
+      link-target="false"
       >
     </github-button>
 
-    <h1>Using target-window to open in new window</h1>
+    <h1>Using link-target to open in new window</h1>
     <github-button
       link="CICCIOSGAMINO/github-button.git"
-      target-window="new"
+      link-target="true"
       >
     </github-button>
 
-    <h1>Using targetWindow property to open in new window</h1>
-    <!-- targetWindow set in script below -->
+    <h1>Using linkTarget property to open in new window</h1>
+    <!-- linkTarget set in script below -->
     <github-button
-      id="set-targetWindow"
+      id="set-linkTarget"
       link="CICCIOSGAMINO/github-button.git"
       >
     </github-button>
@@ -120,8 +120,8 @@
     <script type="module">
       await window.customElements.whenDefined('github-button');
 
-      const el = document.querySelector('#set-targetWindow');
-      el.targetWindow = 'new';
+      const el = document.querySelector('#set-linkTarget');
+      el.linkTarget = 'true';
     </script>
 
   </main>

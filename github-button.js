@@ -64,37 +64,42 @@ class GithubButton extends LitElement {
     `;
   }
 
+  constructor() {
+    super();
+
+    this.linkTarget = 'false';
+  }
+
   static get properties() {
     return {
       link: String,
+      linkTarget: {
+        type: String,
+        attribute: 'link-target',
+        reflect: true,
+      },
     };
   }
 
-  connectedCallback() {
-    super.connectedCallback();
+  #linkTarget;
 
-    this.targetWindow = this.getAttribute('target-window') || 'current';
+  get linkTarget() {
+    return this.#linkTarget;
   }
 
-  #targetWindow;
-
-  get targetWindow() {
-    return this.#targetWindow;
-  }
-
-  set targetWindow(target) {
-    const validTargets = ['current', 'new'];
+  set linkTarget(target) {
+    const validTargets = ['false', 'true'];
 
     if (validTargets.includes(target)) {
-      this.#targetWindow = target;
-      this.setAttribute('target-window', target);
+      this.#linkTarget = target;
+      this.setAttribute('link-target', target);
     } else {
-      // don't change #targetWindow - raise error
-      const errorMessage = `value provided for targetWindow is invalid: ${target} (must be one of ${validTargets.join(
-        ' '
-      )})`;
+      // don't change #linkTarget - report error and set attribute back again
+      this.setAttribute('link-target', `${this.#linkTarget}`);
+
+      const joinedValidTargets = `"${validTargets.join('", "')}"`;
+      const errorMessage = `ERROR: value provided for linkTarget is invalid: ${target} (must be one of [${joinedValidTargets}])`;
       console.error(errorMessage);
-      throw new Error(errorMessage);
     }
   }
 
@@ -113,37 +118,37 @@ class GithubButton extends LitElement {
   }
 
   #handleClick() {
-    const githubBaseURL = 'https://github.com';
-    const githubURL = new URL(this.link, githubBaseURL);
+    if (this.link) {
+      const githubBaseURL = 'https://github.com';
+      const githubURL = new URL(this.link, githubBaseURL);
 
-    this.#disableButtonWithTimeout();
+      this.#disableButtonWithTimeout();
 
-    // dispatch even so this can be tested
-    this.dispatchEvent(
-      new CustomEvent('buttonClicked', {
-        detail: {
-          githubURL,
-          targetWindow: this.targetWindow,
-        },
+      // dispatch even so this can be tested
+      this.dispatchEvent(
+        new CustomEvent('buttonClicked', {
+          detail: {
+            githubURL,
+            linkTarget: this.linkTarget,
+          },
 
-        // only limit this event to this element
-        bubbles: false,
-        composed: false,
-      })
-    );
+          // only limit this event to this element
+          bubbles: false,
+          composed: false,
+        })
+      );
 
-    switch (this.targetWindow) {
-      case 'current':
-        window.location.href = githubURL;
-        break;
-      case 'new':
-        window.open(githubURL);
-        break;
-      default: {
-        const errorMessage = `targetWindow value invalid: ${this.targetWindow}`;
-        console.error(`targetWindow value invalid: ${this.targetWindow}`);
-        throw new Error(errorMessage);
+      switch (this.linkTarget) {
+        case 'false':
+          window.location.href = githubURL;
+          break;
+        case 'true':
+          window.open(githubURL);
+          break;
+        default:
       }
+    } else {
+      console.error('ERROR: No URL set - use "link" attribute.');
     }
   }
 
