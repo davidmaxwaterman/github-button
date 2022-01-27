@@ -68,6 +68,7 @@ class GithubButton extends LitElement {
     super();
 
     this.linkTarget = 'false';
+    this.backgroundColor = 'inherit';
   }
 
   static get properties() {
@@ -78,7 +79,24 @@ class GithubButton extends LitElement {
         attribute: 'link-target',
         reflect: true,
       },
+      backgroundColor: {
+        type: String,
+        attribute: 'background-color',
+        reflect: true,
+      }
     };
+  }
+
+  #backgroundColor;
+
+  get backgroundColor() {
+    return this.#backgroundColor;
+  }
+
+  set backgroundColor(color) {
+    this.#backgroundColor = color;
+
+    this.style.setProperty('--background-color', color);
   }
 
   #linkTarget;

@@ -164,12 +164,17 @@ describe('GithubButton link target', () => {
 });
 
 describe('GithubButton background color', () => {
-  it('setting the --background-color css property sets the background color', async () => {
+  it('not setting the background-color attribute does not set background-color css property', async () => {
     const el = await fixture(html`<github-button></github-button>`);
 
-    const testColor = 'green';
+    const bgColor = window
+      .getComputedStyle(el)
+      .getPropertyValue('background-color');
+    expect(bgColor).to.equal('rgba(0, 0, 0, 0)');
+  });
 
-    el.style.setProperty('--background-color', testColor);
+  it('setting the background-color attribute sets the background color', async () => {
+    const el = await fixture(html`<github-button background-color="green"></github-button>`);
 
     const bgColor = window
       .getComputedStyle(el)
@@ -178,19 +183,4 @@ describe('GithubButton background color', () => {
     expect(bgColor).to.equal('rgb(0, 128, 0)');
   });
 
-  it('not setting the --background-color css property reverts to transparent', async () => {
-    const el = await fixture(html`<github-button></github-button>`);
-
-    {
-      const bgColorProp = el.style.getPropertyValue('--background-color');
-      expect(bgColorProp).to.be.empty;
-    }
-
-    {
-      const bgColor = window
-        .getComputedStyle(el)
-        .getPropertyValue('background-color');
-      expect(bgColor).to.equal('rgba(0, 0, 0, 0)');
-    }
-  });
 });
